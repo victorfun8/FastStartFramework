@@ -1,0 +1,48 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    
+    repositories {
+        maven{ url 'http://maven.aliyun.com/nexus/content/repositories/central/'}
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6.2"
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        maven{ url 'http://maven.aliyun.com/nexus/content/repositories/central/'}
+        google()
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+
+apply plugin: 'org.sonarqube'
+
+subprojects {
+    sonarqube {
+        androidVariant 'debug'
+        properties {
+            property "sonar.host.url", "http://localhost:9000"  //sonar管理系统地址
+            property "sonar.login", "admin" // sonar管理系统账号
+            property "sonar.password", "admin" // sonar管理系统密码
+            property "sonar.sourceEncoding", "UTF-8"  //编码格式
+            property "sonar.sources", "src/main/java"    //源代码路径
+            property "sonar.projectName", "FastStartFramework"  //项目名称
+            property "sonar.language", "java"
+            property "sonar.java.binaries", "build/intermediates/classes"
+        }
+    }
+}
